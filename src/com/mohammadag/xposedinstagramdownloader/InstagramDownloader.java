@@ -267,12 +267,12 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 //		}
 
 		if (mMediaType.equals(videoType)) {
-			linkToDownload = (String) getObjectField(mMedia, "n");
+			linkToDownload = (String) getObjectField(mMedia, "I");
 			filenameExtension = "mp4";
 			descriptionType = "video";
 			descriptionTypeId = R.string.video;
 		} else {
-			linkToDownload = (String) getObjectField(mMedia, "m");
+			linkToDownload = (String) getObjectField(mMedia, "F");
 			filenameExtension = "jpg";
 			descriptionType = "photo";
 			descriptionTypeId = R.string.photo;
@@ -297,7 +297,7 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 
 		String itemId;
 		try {
-			itemId = (String) getObjectField(mMedia, "e");
+			itemId = (String) getObjectField(mMedia, "g");
 		} catch (Throwable t) {
 			log("Failed to get Media item id, using current time in filename");
 			t.printStackTrace();
