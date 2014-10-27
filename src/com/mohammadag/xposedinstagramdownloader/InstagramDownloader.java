@@ -53,6 +53,7 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 	private static Class<?> MediaType;
 	private static Class<?> User;
 
+	// TODO Static class names (May or may not change.)
 	private static final String FEED_CLASS_NAME = "com.instagram.android.feed.a.a.aa";
 	private static final String MEDIA_CLASS_NAME = "com.instagram.feed.d.l";
 	private static final String MEDIA_TYPE_CLASS_NAME = "com.instagram.model.a.a";
@@ -143,9 +144,13 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 			}
 		};
 
+		// TODO MEDIA_OPTION_BUTTON_CLASS_NAME - android/content/Context
 		findAndHookMethod(MediaOptionsButton, "b", injectDownloadIntoCharSequenceHook);
+		
+		// TODO DS_MEDIA_OPTIONS_BUTTON_CLASS_NAME - android/support/v4/app/an
 		findAndHookMethod(DirectSharePermalinkMoreOptionsDialog, "b", injectDownloadIntoCharSequenceHook);
 
+		// TODO MEDIA_OPTION_BUTTON_CLASS_NAME - android/support/v4/app/Fragment
 		findAndHookMethod(MediaOptionsButton, "a", new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -153,6 +158,7 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 			}
 		});
 
+		// TODO DS_MEDIA_OPTIONS_BUTTON_CLASS_NAME - android/content/Context
 		findAndHookMethod(DirectSharePermalinkMoreOptionsDialog, "a", new XC_MethodHook() {
 			@Override
 			protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -208,6 +214,7 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 					Object mMedia = null;
 
 					try {
+						// TODO FEED_CLASS_NAME - MEDIA_CLASS_NAME
 						mMedia = getObjectField(mCurrentMediaOptionButton, "h");
 					} catch (NoSuchFieldError e) {
 						log("Failed to get media: " + e.getMessage());
@@ -254,6 +261,7 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 			return;
 		}
 
+		// TODO MEDIA_TYPE_CLASS_NAME - MEDIA_TYPE_CLASS_NAME (Test both out. Usually 2nd one is video?)
 		Object videoType = getStaticObjectField(MediaType, "b");
 
 		String linkToDownload;
@@ -267,12 +275,14 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 //		}
 
 		if (mMediaType.equals(videoType)) {
+			// TODO MEDIA_CLASS_NAME - java/lang/String (Check for pattern.)
 			linkToDownload = (String) getObjectField(mMedia, "I");
 			filenameExtension = "mp4";
 			descriptionType = "video";
 			descriptionTypeId = R.string.video;
 		} else {
-			linkToDownload = (String) getObjectField(mMedia, "F");
+			// TODO MEDIA_CLASS_NAME - java/lang/String (Check for pattern.)
+			linkToDownload = (String) getObjectField(mMedia, "H");
 			filenameExtension = "jpg";
 			descriptionType = "photo";
 			descriptionTypeId = R.string.photo;
@@ -291,13 +301,17 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 			userName = "username_placeholder";
 			userFullName = "Unknown name";
 		} else {
+			// TODO USER_CLASS_NAME - java/lang/String (Check for pattern.)
 			userName = (String) getObjectField(mUser, "a");
+			
+			// TODO USER_CLASS_NAME - java/lang/String (Check for pattern.)
 			userFullName = (String) getObjectField(mUser, "b");
 		}
 
 		String itemId;
 		try {
-			itemId = (String) getObjectField(mMedia, "g");
+			// TODO MEDIA_CLASS_NAME - java/lang/String (Check for pattern.)
+			itemId = (String) getObjectField(mMedia, "a");
 		} catch (Throwable t) {
 			log("Failed to get Media item id, using current time in filename");
 			t.printStackTrace();
