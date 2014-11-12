@@ -54,11 +54,11 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 	private static Class<?> User;
 
 	// TODO Static class names (May or may not change.)
-	private static final String FEED_CLASS_NAME = "com.instagram.android.feed.a.a.aa";
+	private static final String FEED_CLASS_NAME = "com.instagram.android.feed.a.a.ac";
 	private static final String MEDIA_CLASS_NAME = "com.instagram.feed.d.l";
 	private static final String MEDIA_TYPE_CLASS_NAME = "com.instagram.model.a.a";
 	private static final String USER_CLASS_NAME = "com.instagram.user.c.a";
-	private static final String MEDIA_OPTIONS_BUTTON_CLASS_NAME = "com.instagram.android.feed.a.a.x";
+	private static final String MEDIA_OPTIONS_BUTTON_CLASS_NAME = "com.instagram.android.feed.a.a.z";
 
 	private static final String DS_PACKAGE_NAME = "com.instagram.android.directshare.d";
 	private static final String DS_MEDIA_OPTIONS_BUTTON_CLASS_NAME = DS_PACKAGE_NAME + ".ad";
@@ -214,7 +214,7 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 					Object mMedia = null;
 
 					try {
-						// TODO FEED_CLASS_NAME - MEDIA_CLASS_NAME
+						// TODO MEDIA_OPTIONS_BUTTON_CLASS_NAME - MEDIA_CLASS_NAME
 						mMedia = getObjectField(mCurrentMediaOptionButton, "h");
 					} catch (NoSuchFieldError e) {
 						log("Failed to get media: " + e.getMessage());
@@ -282,7 +282,7 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 			descriptionTypeId = R.string.video;
 		} else {
 			// TODO MEDIA_CLASS_NAME - java/lang/String (Check for pattern.)
-			linkToDownload = (String) getObjectField(mMedia, "H");
+			linkToDownload = (String) getObjectField(mMedia, "F");
 			filenameExtension = "jpg";
 			descriptionType = "photo";
 			descriptionTypeId = R.string.photo;
@@ -302,16 +302,16 @@ public class InstagramDownloader implements IXposedHookLoadPackage, IXposedHookZ
 			userFullName = "Unknown name";
 		} else {
 			// TODO USER_CLASS_NAME - java/lang/String (Check for pattern.)
-			userName = (String) getObjectField(mUser, "a");
+			userName = (String) getObjectField(mUser, "i");
 			
 			// TODO USER_CLASS_NAME - java/lang/String (Check for pattern.)
-			userFullName = (String) getObjectField(mUser, "b");
+			userFullName = (String) getObjectField(mUser, "j");
 		}
 
 		String itemId;
 		try {
 			// TODO MEDIA_CLASS_NAME - java/lang/String (Check for pattern.)
-			itemId = (String) getObjectField(mMedia, "a");
+			itemId = (String) getObjectField(mMedia, "b");
 		} catch (Throwable t) {
 			log("Failed to get Media item id, using current time in filename");
 			t.printStackTrace();
